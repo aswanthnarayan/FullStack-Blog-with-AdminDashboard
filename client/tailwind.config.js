@@ -7,9 +7,14 @@ module.exports = withMT({
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      height:{
+        'auth-h':"calc(100vh - 65px)",
+      }
+    },
   },
-  plugins: [],
+  plugins: [
+  ],
 });
 
 
