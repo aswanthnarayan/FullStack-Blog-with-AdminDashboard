@@ -98,7 +98,7 @@ const SignUpComponent = () => {
                     setErrors({ email: 'Email already exists.Please Login or use another' });
                   }
                   else if (errorMessage.includes('Username is already in use')) {
-                    setErrors({ username: 'Email already exists.Please choose another' });
+                    setErrors({ username: 'Username already exists.Please choose another' });
                   }
                  else {
                   // General error for other 400 errors

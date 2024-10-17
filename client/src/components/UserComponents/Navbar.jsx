@@ -2,14 +2,37 @@ import React, { useState } from 'react'
 import logo from '../../assets/UserAssets/logo1.png'
 import defaultUser from '../../assets/UserAssets/man.png'
 import { IoMdArrowDropdown ,IoMdArrowDropup} from "react-icons/io";
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios'
+import { logoutUser } from '../../store/features/auth/AuthSlice';
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  
+  
   // Function to toggle dropdown visibility
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
+
+  
+  const handleLogout = async()=>{
+    try {
+      await axios.post('http://localhost:3000/user/logout', {}, {
+        withCredentials: true, 
+      });
+    } catch (error) {
+      console.error('Error during logout:', error.response?.data || error.message)
+    }
+      dispatch(logoutUser());
+      // window.location.href = '/user/home';
+      navigate('/user/home')
+  }
 
   return (
     <div className='flex items-center justify-between p-4 sticky top-0 z-50 bg-white'>
@@ -23,8 +46,8 @@ const Navbar = () => {
         <ul className='flex gap-4'>
           <li>Home</li>
           <li>Write</li>
-          <li>Profile</li>
-          <li>Logout</li>
+          <Link to={isAuthenticated && user ? `/user/profile/${user._id}` : '/user/signin'}>Profile</Link>
+          {isAuthenticated?<Link onClick={handleLogout}>Logout</Link>:<Link to='/user/signin'>SignIn</Link>}
         </ul>
         <div className='flex items-center'>
           <img className='w-8 rounded-full' src={defaultUser} alt="profile_Img" />
@@ -43,8 +66,10 @@ const Navbar = () => {
           <ul className='flex flex-col p-4 px-8'>
             <li className='p-2'>Home</li>
             <li className='p-2'>Write</li>
-            <li className='p-2'>Profile</li>
-            <li className='p-2'>Logout</li>
+          <Link className='p-2' to={isAuthenticated && user ? `/user/profile/${user._id}` : '/user/signin'}>Profile</Link>
+
+          {isAuthenticated?<li onClick={handleLogout} className='p-2'>Logout</li>:<Link to='/user/signin' className='p-2'>SignIn</Link>}
+
           </ul>
         </div>
       )}

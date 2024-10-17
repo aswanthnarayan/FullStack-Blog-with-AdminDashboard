@@ -48,7 +48,7 @@ function App() {
 
         <Route path="/user/home" element={<HomePage />} />
         <Route path="/user/write" element={<PrivateRoute><WritePage /></PrivateRoute>} />
-        <Route path="/user/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+        <Route path="/user/profile/:userID" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
         <Route path="/user/signup" element={isAuthenticated ? <Navigate to="/user/home" /> : <SignUpPage />} />
         <Route path="/user/signin" element={isAuthenticated ? <Navigate to="/user/home" /> : <SignInPage />} />
         <Route path="/user/post/:id" element={<SinglePostPage />} />

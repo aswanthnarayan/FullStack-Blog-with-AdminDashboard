@@ -19,6 +19,10 @@ app.use(cors({
 
 // Routes
 app.use('/user/', AuthRoutes);
+// app.use(express.static('uploads'));
+app.use('/uploads', express.static('uploads'));
+
+
 
 // MongoDB Connection
 mongoDb();

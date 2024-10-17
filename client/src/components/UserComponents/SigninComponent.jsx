@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../store/features/auth/AuthSlice';
 import { Link, useNavigate } from 'react-router-dom';
+import { checkAuth } from '../../utils/checkUserLoggedIn';
 
 const SigninComponent = () => {
   const [formData, setFormData] = useState({
@@ -58,11 +59,9 @@ const SigninComponent = () => {
           'Content-Type': 'application/json',
         },
         withCredentials: true,
-      });
-  
-      dispatch(setUser({
-        user: response.data.user,  // Add user data only
-      }));
+      })
+      dispatch(setUser({ user: response.data.user }));
+      checkAuth(dispatch)
       navigate('/user/home');
   
     } catch (error) {

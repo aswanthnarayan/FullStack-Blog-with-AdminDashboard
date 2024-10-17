@@ -35,7 +35,7 @@ const postSignUp= async (req, res) => {
             name,
             username,
             email,
-            password: hashedPassword,
+            password,
             profilePic: profilePic || "" // Optional profilePic handling
         });
 
@@ -50,7 +50,6 @@ const postSignUp= async (req, res) => {
         res.status(500).json({ error: 'Server error' });        
     }
 }
-
 
 
 const postSignIn = async (req, res) => {
@@ -71,12 +70,11 @@ const postSignIn = async (req, res) => {
       // Generate JWT token
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-      // Set the cookie with additional settings
       res.cookie('token', token, {
         httpOnly: true,  // Prevents JavaScript from accessing the cookie
-        secure:false,  // Use true only in production (for HTTPS)
+        secure:false, 
         sameSite: 'Lax',  
-        maxAge: 24 * 60 * 60 * 1000, // Set cookie expiration (1 hour)
+        maxAge: 24 * 60 * 60 * 1000, 
       });
 
       res.json({
@@ -94,6 +92,7 @@ const postSignIn = async (req, res) => {
 };
 
 
+//route to check jwt token is available
 
 const getUserProfile = async (req, res) => {
   
@@ -109,21 +108,76 @@ const getUserProfile = async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Fetch the user from the database
-    const user = await User.findById(decoded.id).select('-password'); // Do not send the password
+    const user = await User.findById(decoded.id).select('-password'); 
     
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Return user data
+    // Return user
     res.status(200).json({ user });
   } catch (error) {
-    // If token is invalid, return an error
     res.status(401).json({ message: 'Invalid token' });
   }
 };
 
 
+  const logoutUser = async (req,res)=>{
+    res.clearCookie('token', {
+        httpOnly: true,  
+        secure: false,   
+        sameSite: 'Lax', 
+      });
+    
+    res.status(200).json({ message: 'Logged out successfully' })
+  }
+
+// to check password comparison i profile page
+const verifyPassword = async (req, res) => {
+  const { userId, password } = req.body;
+
+  try {
+      const user = await User.findById(userId);
+      if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      const isMatch = await user.comparePassword(password); 
+      if (!isMatch) {
+          return res.status(400).json({ error: 'Invalid password' });
+      }
+
+      return res.status(200).json({ message: 'Password verified' });
+  } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Server error' });
+  }
+};
+
+// to update userdata
+const updateUser = async (req, res) => {
+  const { userId, ...updatedFields } = req.body;
+  if (updatedFields.socialLinks) {
+    updatedFields.socialLinks = JSON.parse(updatedFields.socialLinks);
+}
+  let profilePic = req.file ? `/uploads/${req.file.filename}` : undefined;
+  if (profilePic) {
+    updatedFields.profilePic = profilePic; // Add the profilePic URL to the updated fields
+  }
+  try {
+    const user = await User.findByIdAndUpdate(userId, updatedFields, { new: true }).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ message: 'User updated successfully', user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+
 module.exports = {
-    postSignUp,postSignIn,getUserProfile
+    postSignUp,postSignIn,getUserProfile,logoutUser,verifyPassword,updateUser
 }
