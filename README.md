@@ -119,3 +119,82 @@ FullStack-BlogApp
    └─ validators
 
 ```
+```
+FullStack-BlogApp
+├─ README.md
+├─ client
+│  ├─ eslint.config.js
+│  ├─ index.html
+│  ├─ package-lock.json
+│  ├─ package.json
+│  ├─ postcss.config.js
+│  ├─ public
+│  ├─ src
+│  │  ├─ App.jsx
+│  │  ├─ api
+│  │  ├─ assets
+│  │  │  ├─ AdminAssets
+│  │  │  └─ UserAssets
+│  │  │     ├─ Carousel1.avif
+│  │  │     ├─ Carousel2.avif
+│  │  │     ├─ Carousel3.avif
+│  │  │     ├─ logo.png
+│  │  │     ├─ logo1.png
+│  │  │     ├─ man.png
+│  │  │     └─ user.png
+│  │  ├─ components
+│  │  │  ├─ AdminComponents
+│  │  │  │  ├─ AdminHome.jsx
+│  │  │  │  ├─ AdminNavbar.jsx
+│  │  │  │  └─ Material
+│  │  │  │     ├─ SideBar.jsx
+│  │  │  │     ├─ StaticsCard.jsx
+│  │  │  │     └─ UserTAble.jsx
+│  │  │  └─ UserComponents
+│  │  │     ├─ Author.jsx
+│  │  │     ├─ CardSection.jsx
+│  │  │     ├─ CustomInput.jsx
+│  │  │     ├─ Footer.jsx
+│  │  │     ├─ Material
+│  │  │     │  ├─ BlogCard.jsx
+│  │  │     │  └─ CustomCarousel.jsx
+│  │  │     ├─ Navbar.jsx
+│  │  │     ├─ ProfileComponent.jsx
+│  │  │     ├─ SigninComponent.jsx
+│  │  │     ├─ SinglePost.jsx
+│  │  │     └─ WriteComponent.jsx
+│  │  ├─ context
+│  │  ├─ index.css
+│  │  ├─ main.jsx
+│  │  ├─ pages
+│  │  │  ├─ AdminPages
+│  │  │  │  ├─ AdminHomePage.jsx
+│  │  │  │  ├─ DashboardPage.jsx
+│  │  │  │  └─ UsersPage.jsx
+│  │  │  └─ UserPages
+│  │  │     ├─ AuthorPage.jsx
+│  │  │     ├─ HomePage.jsx
+│  │  │     ├─ ProfilePage.jsx
+│  │  │     ├─ SignInPage.jsx
+│  │  │     ├─ SignUpPage.jsx
+│  │  │     ├─ SinglePostPage.jsx
+│  │  │     └─ WritePage.jsx
+│  │  ├─ redux
+│  │  ├─ services
+│  │  └─ utils
+│  ├─ tailwind.config.js
+│  └─ vite.config.js
+└─ server
+   ├─ config
+   ├─ controllers
+   ├─ middlewares
+   ├─ models
+   ├─ package-lock.json
+   ├─ package.json
+   ├─ routes
+   ├─ server.js
+   ├─ uploads
+   ├─ utils
+   └─ validators
+
+```
